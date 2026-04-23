@@ -1,0 +1,19 @@
+# Miljövariabler — får ALDRIG committeras till git
+.env
+
+# Node.js beroenden
+node_modules/
+
+# Loggar
+*.log
+npm-debug.log*
+
+# Operativsystemfiler
+.DS_Store
+Thumbs.db
+
+# Editor-filer
+.vscode/
+.idea/
+
+.env

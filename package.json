@@ -1,0 +1,14 @@
+{
+  "name": "personalhanteringssystem",
+  "version": "1.0.0",
+  "description": "Databasprojekt - Kompetensbaserad personalorganisation",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "mysql2": "^3.9.7"
+  }
+}

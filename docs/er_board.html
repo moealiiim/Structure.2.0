@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<title>Personalhanteringssystem — ER-board</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #1e1e2e; font-family: 'Segoe UI', sans-serif; padding: 40px; min-height: 100vh; }
+
+  h1 { color: #fff; text-align: center; font-size: 28px; margin-bottom: 6px; }
+  .subtitle { color: #888; text-align: center; font-size: 14px; margin-bottom: 40px; }
+
+  .board { display: flex; flex-wrap: wrap; gap: 24px; justify-content: center; }
+
+  .section { background: #2a2a3e; border-radius: 16px; padding: 20px; width: 280px; }
+  .section-title { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 2px solid; }
+
+  .section.green  { border-top: 4px solid #4ade80; }
+  .section.blue   { border-top: 4px solid #60a5fa; }
+  .section.yellow { border-top: 4px solid #facc15; }
+  .section.orange { border-top: 4px solid #fb923c; }
+  .section.purple { border-top: 4px solid #c084fc; }
+  .section.red    { border-top: 4px solid #f87171; }
+  .section.gray   { border-top: 4px solid #9ca3af; }
+
+  .section.green  .section-title { color: #4ade80; border-color: #4ade8033; }
+  .section.blue   .section-title { color: #60a5fa; border-color: #60a5fa33; }
+  .section.yellow .section-title { color: #facc15; border-color: #facc1533; }
+  .section.orange .section-title { color: #fb923c; border-color: #fb923c33; }
+  .section.purple .section-title { color: #c084fc; border-color: #c084fc33; }
+  .section.red    .section-title { color: #f87171; border-color: #f8717133; }
+  .section.gray   .section-title { color: #9ca3af; border-color: #9ca3af33; }
+
+  .table-box { background: #1e1e2e; border-radius: 10px; padding: 12px 14px; margin-bottom: 10px; }
+  .table-name { font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+
+  .col { font-size: 11px; padding: 3px 0; color: #ccc; display: flex; gap: 8px; align-items: center; }
+  .badge { font-size: 9px; font-weight: 700; padding: 1px 5px; border-radius: 4px; flex-shrink: 0; }
+  .pk { background: #facc1522; color: #facc15; }
+  .fk { background: #60a5fa22; color: #60a5fa; }
+  .uq { background: #4ade8022; color: #4ade80; }
+
+  .rel-box { background: #1e1e2e; border-radius: 10px; padding: 12px 14px; font-size: 12px; color: #ccc; line-height: 1.9; }
+  .rel-line { display: flex; align-items: center; gap: 8px; }
+  .rel-arrow { color: #60a5fa; font-weight: 700; }
+  .rel-type { font-size: 10px; background: #60a5fa22; color: #60a5fa; padding: 1px 6px; border-radius: 4px; }
+  .rel-type.mn { background: #c084fc22; color: #c084fc; }
+  .rel-type.n1 { background: #4ade8022; color: #4ade80; }
+
+  .sticky { border-radius: 10px; padding: 12px 14px; margin-bottom: 10px; font-size: 12px; line-height: 1.7; }
+  .sticky.yellow { background: #facc1515; color: #facc15; border: 1px solid #facc1530; }
+  .sticky.green  { background: #4ade8015; color: #4ade80; border: 1px solid #4ade8030; }
+  .sticky.red    { background: #f8717115; color: #f87171; border: 1px solid #f8717130; }
+  .sticky.blue   { background: #60a5fa15; color: #60a5fa; border: 1px solid #60a5fa30; }
+
+  .check-list { font-size: 12px; color: #ccc; line-height: 2; }
+  .check-list .done { color: #4ade80; }
+  .check-list .todo { color: #888; }
+
+  .footer { text-align: center; color: #444; font-size: 11px; margin-top: 40px; }
+
+  .wide { width: 600px; }
+</style>
+</head>
+<body>
+
+<h1>Personalhanteringssystem</h1>
+<p class="subtitle">Kunskapsdomän: Kompetensbaserad personalorganisation &nbsp;|&nbsp; MySQL + Node.js &nbsp;|&nbsp; 2026</p>
+
+<div class="board">
+
+  <!-- ENTITETER -->
+  <div class="section green">
+    <div class="section-title">Huvud-entiteter (5 st)</div>
+
+    <div class="table-box">
+      <div class="table-name">EMPLOYEES</div>
+      <div class="col"><span class="badge pk">PK</span> employee_id</div>
+      <div class="col"><span class="badge fk">FK</span> department_id</div>
+      <div class="col">first_name, last_name</div>
+      <div class="col"><span class="badge uq">UQ</span> email</div>
+      <div class="col">salary (DECIMAL) 💰</div>
+      <div class="col">hire_date (DATE) 📅</div>
+      <div class="col">employment_type (ENUM)</div>
+    </div>
+
+    <div class="table-box">
+      <div class="table-name">DEPARTMENTS</div>
+      <div class="col"><span class="badge pk">PK</span> department_id</div>
+      <div class="col"><span class="badge uq">UQ</span> name</div>
+      <div class="col">budget (DECIMAL) 💰</div>
+    </div>
+
+    <div class="table-box">
+      <div class="table-name">ROLES</div>
+      <div class="col"><span class="badge pk">PK</span> role_id</div>
+      <div class="col">title, seniority_level</div>
+    </div>
+
+    <div class="table-box">
+      <div class="table-name">TASKS</div>
+      <div class="col"><span class="badge pk">PK</span> task_id</div>
+      <div class="col">title, priority (ENUM)</div>
+    </div>
+
+    <div class="table-box">
+      <div class="table-name">SKILLS</div>
+      <div class="col"><span class="badge pk">PK</span> skill_id</div>
+      <div class="col">name, category</div>
+    </div>
+  </div>
+
+  <!-- KOPPLINGSTABELLER -->
+  <div class="section gray">
+    <div class="section-title">Kopplingstabeller (M:N)</div>
+
+    <div class="table-box">
+      <div class="table-name">EMPLOYEE_ROLES</div>
+      <div class="col"><span class="badge fk">FK</span> employee_id</div>
+      <div class="col"><span class="badge fk">FK</span> role_id</div>
+      <div class="col">start_date (DATE) 📅</div>
+      <div class="col">end_date (DATE) 📅</div>
+    </div>
+
+    <div class="table-box">
+      <div class="table-name">ROLE_TASKS</div>
+      <div class="col"><span class="badge fk">FK</span> role_id</div>
+      <div class="col"><span class="badge fk">FK</span> task_id</div>
+    </div>
+
+    <div class="table-box">
+      <div class="table-name">ROLE_SKILLS</div>
+      <div class="col"><span class="badge fk">FK</span> role_id</div>
+      <div class="col"><span class="badge fk">FK</span> skill_id</div>
+      <div class="col">required_level (ENUM)</div>
+    </div>
+
+    <div class="sticky yellow">
+      💡 Composite PK på alla kopplingstabeller förhindrar dubbletter automatiskt
+    </div>
+  </div>
+
+  <!-- RELATIONER -->
+  <div class="section blue">
+    <div class="section-title">Relationer &amp; Kardinalitet</div>
+    <div class="rel-box">
+      <div class="rel-line">
+        <span>employees → departments</span>
+        <span class="rel-type n1">N:1</span>
+      </div>
+      <div style="font-size:10px;color:#666;margin-bottom:10px;padding-left:4px">
+        En anställd tillhör EN avdelning
+      </div>
+
+      <div class="rel-line">
+        <span>employees ↔ roles</span>
+        <span class="rel-type mn">M:N</span>
+      </div>
+      <div style="font-size:10px;color:#666;margin-bottom:10px;padding-left:4px">
+        Via employee_roles
+      </div>
+
+      <div class="rel-line">
+        <span>roles ↔ tasks</span>
+        <span class="rel-type mn">M:N</span>
+      </div>
+      <div style="font-size:10px;color:#666;margin-bottom:10px;padding-left:4px">
+        Via role_tasks
+      </div>
+
+      <div class="rel-line">
+        <span>roles ↔ skills</span>
+        <span class="rel-type mn">M:N</span>
+      </div>
+      <div style="font-size:10px;color:#666;padding-left:4px">
+        Via role_skills
+      </div>
+    </div>
+  </div>
+
+  <!-- TEKNISKA VAL -->
+  <div class="section orange">
+    <div class="section-title">Tekniska val</div>
+    <div class="sticky blue">
+      <strong>Databas: MySQL 8.0</strong><br>
+      Relationell data med tydliga FK-kopplingar. Stöd för transactions, prepared statements och 3NF.
+    </div>
+    <div class="sticky blue">
+      <strong>Backend: Node.js + mysql2</strong><br>
+      Async/await, prepared statements med execute(), dotenv för miljövariabler.
+    </div>
+    <div class="sticky red">
+      <strong>Säkerhet:</strong><br>
+      ✓ .env för lösenord<br>
+      ✓ .gitignore skyddar .env<br>
+      ✓ Prepared statements<br>
+      ✓ Input-validering i models
+    </div>
+  </div>
+
+  <!-- KUNSKAPSDOMÄN -->
+  <div class="section purple">
+    <div class="section-title">Kunskapsdomän</div>
+    <div class="sticky yellow">
+      <strong>Domän:</strong><br>
+      Kompetensbaserad personalorganisation
+    </div>
+    <div class="sticky red">
+      <strong>Problemet:</strong><br>
+      Företaget  vet inte vem som gör vad, vilka kompetenser som finns eller hur man hittar rätt person för rätt uppgift.
+    </div>
+    <div class="sticky green">
+      <strong>Lösningen:</strong><br>
+      Relationsdatabas med 5 entiteter och 3 kopplingstabeller som kopplar samman personal, roller, uppgifter och kompetenser.
+    </div>
+  </div>
+
+  <!-- CHECKLISTA -->
+  <div class="section yellow">
+    <div class="section-title">Projektkrav — Checklista</div>
+    <div class="check-list">
+      <div class="done">✅ Kunskapsdomän definierad</div>
+      <div class="done">✅ 5 huvudentiteter</div>
+      <div class="done">✅ ER-diagram skapat</div>
+      <div class="done">✅ M:N löst med kopplingstabeller</div>
+      <div class="done">✅ Datum-attribut (hire_date, start/end)</div>
+      <div class="done">✅ Numeriskt attribut (salary, budget)</div>
+      <div class="done">✅ 3NF uppfyllt</div>
+      <div class="done">✅ MySQL-databas skapad</div>
+      <div class="done">✅ Testdata inlagd</div>
+      <div class="done">✅ 12 SQL-frågor med JOIN</div>
+      <div class="done">✅ Node.js kopplat till MySQL</div>
+      <div class="done">✅ .env + .gitignore</div>
+      <div class="done">✅ Prepared statements</div>
+      <div class="done">✅ MongoDB-sektion</div>
+      <div class="done">✅ Projektdokument skrivet</div>
+      <div class="done">✅ Reflektion skriven</div>
+      <div class="todo">⬜ ER-diagram exporterat som PNG</div>
+      <div class="todo">⬜ Dokument länkat i inlämning</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">Personalhanteringssystem — Databasprojekt 2026 &nbsp;|&nbsp; Structure.2.0</div>
+
+</body>
+</html>
